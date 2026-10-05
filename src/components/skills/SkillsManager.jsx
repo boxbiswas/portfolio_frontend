@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchSkills, addSkill, updateSkill, deleteSkill } from '../../redux/slices/skillsSlice';
 import { Plus, Edit2, Trash2, X } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { customConfirm } from '../../utils/customConfirm';
 
 /**
  * SkillsManager Component
@@ -47,15 +48,15 @@ export default function SkillsManager() {
     /**
      * Handles skill deletion with a confirmation prompt.
      */
-    const handleDelete = async (id) => {
-        if (window.confirm('Are you sure you want to delete this skill?')) {
+    const handleDelete = (id) => {
+        customConfirm('Are you sure you want to delete this skill?', async () => {
             try {
                 await dispatch(deleteSkill(id)).unwrap();
                 toast.success('Skill deleted successfully');
             } catch (error) {
                 toast.error(error || 'Failed to delete skill');
             }
-        }
+        });
     };
 
     /**

@@ -10,7 +10,7 @@ export default function ExperienceSection() {
         dispatch(fetchExperience());
     }, [dispatch]);
 
-    if (loading && experience.length === 0) return null;
+    if (loading && experience.length === 0) return <section id="experience" className="py-24"></section>;
 
     return (
         <section id="experience" className="py-24 bg-slate-50 relative overflow-hidden">

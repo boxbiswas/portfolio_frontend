@@ -10,7 +10,7 @@ export default function TestimonialsSection() {
         dispatch(fetchTestimonials());
     }, [dispatch]);
 
-    if (loading && testimonials.length === 0) return null;
+    if (loading && testimonials.length === 0) return <section id="testimonials" className="py-24"></section>;
     if (testimonials.length === 0) return null; // Don't show section if empty
 
     return (

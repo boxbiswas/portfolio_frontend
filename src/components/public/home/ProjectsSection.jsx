@@ -1,22 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProjects } from '../../../redux/slices/projectsSlice';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ArrowRight } from 'lucide-react';
 
 export default function ProjectsSection() {
     const dispatch = useDispatch();
     const { items: projects = [], loading } = useSelector((state) => state.projects || {});
+    const [showAll, setShowAll] = useState(false);
 
     useEffect(() => {
         dispatch(fetchProjects());
     }, [dispatch]);
 
-    // Only show featured or published projects on the main portfolio (simplified logic)
-    const displayProjects = projects.filter(p => p.status === 'published' || p.status === 'completed').slice(0, 4);
+    // Filter published projects
+    const publishedProjects = projects.filter(p => p.status === 'published' || p.status === 'completed');
+    const displayProjects = showAll ? publishedProjects : publishedProjects.slice(0, 4);
 
     if (loading && projects.length === 0) {
         return (
-            <section className="py-24 bg-white"><div className="max-w-7xl mx-auto px-6">
+            <section id="projects" className="py-24 bg-white"><div className="max-w-7xl mx-auto px-6">
                 <div className="mb-12"><div className="h-10 bg-slate-100 animate-pulse rounded-md w-1/3 mb-4"></div><div className="h-4 bg-slate-100 animate-pulse rounded-md w-1/2"></div></div>
                 <div className="grid md:grid-cols-2 gap-8">
                     {[1, 2, 3, 4].map(i => (
@@ -42,9 +44,11 @@ export default function ProjectsSection() {
                         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">Selected Work</h2>
                         <p className="mt-4 text-lg text-slate-600 max-w-2xl">A collection of projects that showcase my capabilities.</p>
                     </div>
-                    <a href="#" className="hidden md:flex items-center gap-2 text-indigo-600 font-semibold hover:text-indigo-700">
-                        View all projects <ArrowUpRight className="w-4 h-4" />
-                    </a>
+                    {publishedProjects.length > 4 && (
+                        <button onClick={() => setShowAll(!showAll)} className="hidden md:flex items-center gap-2 text-indigo-600 font-semibold hover:text-indigo-700 transition-colors">
+                            {showAll ? 'View less' : 'View all projects'} <ArrowRight className={`w-4 h-4 transition-transform ${showAll ? '-rotate-90' : 'rotate-0'}`} />
+                        </button>
+                    )}
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-8">
@@ -80,6 +84,15 @@ export default function ProjectsSection() {
                         </div>
                     ))}
                 </div>
+
+                {/* Mobile Show All Button */}
+                {publishedProjects.length > 4 && (
+                    <div className="mt-8 flex justify-center md:hidden">
+                        <button onClick={() => setShowAll(!showAll)} className="flex items-center gap-2 px-6 py-3 bg-slate-50 text-slate-900 font-semibold rounded-xl border border-slate-200 hover:bg-slate-100 transition-colors">
+                            {showAll ? 'View less' : 'View all projects'}
+                        </button>
+                    </div>
+                )}
             </div>
         </section>
     );

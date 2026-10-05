@@ -24,7 +24,7 @@ export default function ServicesSection() {
         }
     };
 
-    if (loading && services.length === 0) return null;
+    if (loading && services.length === 0) return <section id="services" className="py-24"></section>;
 
     return (
         <section id="services" className="py-24 bg-white">

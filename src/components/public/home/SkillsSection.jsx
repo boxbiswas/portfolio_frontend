@@ -20,7 +20,7 @@ export default function SkillsSection() {
 
     if (loading && skills.length === 0) {
         return (
-            <section className="py-24 bg-slate-50"><div className="max-w-7xl mx-auto px-6">
+            <section id="skills" className="py-24 bg-slate-50"><div className="max-w-7xl mx-auto px-6">
                 <div className="mb-16 text-center flex flex-col items-center"><div className="h-10 bg-slate-100 animate-pulse rounded-md w-1/3 mb-4"></div><div className="h-4 bg-slate-100 animate-pulse rounded-md w-1/2"></div></div>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {[1, 2, 3].map(i => (
